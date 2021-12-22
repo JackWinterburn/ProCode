@@ -4,7 +4,6 @@
 *.dll
 *.so
 *.dylib
-
 # Test binary, built with 
 *.test
 
@@ -13,3 +12,7 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+#
+# Other
+.env
+
