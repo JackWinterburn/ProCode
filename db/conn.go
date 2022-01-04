@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var PSQL *gorm.DB
 
 func Connect() {
 	conn, err := gorm.Open(postgres.Open(os.Getenv("postgres_dsn")), &gorm.Config{})
@@ -16,7 +16,7 @@ func Connect() {
 		panic(err)
 	}
 
-	DB = conn
+	PSQL = conn
 
 	if err = conn.AutoMigrate(&models.User{}); err != nil {
 		panic(err)
