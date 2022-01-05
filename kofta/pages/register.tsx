@@ -18,6 +18,8 @@ import {
     useBreakpointValue,
     IconProps,
     Icon,
+    Checkbox,
+    HStack,
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 
@@ -81,7 +83,7 @@ const Register: NextPage = () => {
                         Dozens of competitions{' '}
                         <Text
                             as={'span'}
-                            bgGradient="linear(to-r, blue.400,green.400)"
+                            bgGradient="linear(to-r, red.400,pink.400)"
                             bgClip="text">
                             &
                         </Text>{' '}
@@ -103,7 +105,7 @@ const Register: NextPage = () => {
                                         height: 'full',
                                         rounded: 'full',
                                         transform: 'scale(1.125)',
-                                        bgGradient: 'linear(to-bl, blue.400,green.400)',
+                                        bgGradient: 'linear(to-bl, red.400,pink.400)',
                                         position: 'absolute',
                                         zIndex: -1,
                                         top: 0,
@@ -156,15 +158,14 @@ const Register: NextPage = () => {
                             Join up now
                             <Text
                                 as={'span'}
-                                bgGradient="linear(to-r, blue.400,green.400)"
+                                bgGradient="linear(to-r, red.400,pink.400)"
                                 bgClip="text">
                                 !
                             </Text>
                         </Heading>
                     </Stack>
                     <form onSubmit={onSubmit}>
-
-                    <Box mt={10} >
+                    <Box mt={10}>
                         <Stack spacing={4}>
                             <Input
                                 placeholder="Full name"
@@ -218,16 +219,17 @@ const Register: NextPage = () => {
                             />
 
                         </Stack>
+                        <Checkbox mt={5}>Remember me</Checkbox>
                         <Button
                             type="submit"
                             fontFamily={'heading'}
                             mt={8}
                             w={'full'}
-                            bgGradient="linear(to-r, blue.400,green.400)"
+                            bgGradient="linear(to-r, red.400,pink.400)"
                             color={'white'}
                             transition={"0.2s ease"}
                             _hover={{
-                                bgGradient: 'linear(to-r, blue.300,green.300)',
+                                bgGradient: 'linear(to-r, red.300,pink.300)',
                                 boxShadow: 'xl',
                             }}>
                             Submit
@@ -238,6 +240,7 @@ const Register: NextPage = () => {
             </Container>
             <Blur
                 position={'absolute'}
+                zIndex={-1}
                 top={-10}
                 left={-10}
                 style={{ filter: 'blur(70px)' }}

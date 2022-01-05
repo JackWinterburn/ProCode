@@ -7,7 +7,7 @@ import {
 	Stack,
 	Collapse,
 	Icon,
-	Link,
+	Link as CLink,
 	Popover,
 	PopoverTrigger,
 	PopoverContent,
@@ -21,12 +21,13 @@ import {
 	ChevronDownIcon,
 	ChevronRightIcon,
 } from '@chakra-ui/icons';
+import Link from "next/link";
 
 export function Navbar() {
 	const { isOpen, onToggle } = useDisclosure();
 
 	return (
-		<Box>
+		<Box backdropBlur={5} >
 			<Flex
 				bg={useColorModeValue('white', 'gray.800')}
 				color={useColorModeValue('gray.600', 'white')}
@@ -51,14 +52,17 @@ export function Navbar() {
 					/>
 				</Flex>
 				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+					<Link href="/">
 					<Text
 						textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
 						fontFamily={'Ubuntu'}
 						fontWeight={700}
 						fontSize={"x-large"}
-						color={useColorModeValue('gray.800', 'white')}>
+						color={useColorModeValue('gray.800', 'white')}
+						_hover={{cursor: "pointer"}}>
 						procode
 					</Text>
+					</Link>
 
 					<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
 						<DesktopNav />
@@ -70,27 +74,27 @@ export function Navbar() {
 					justify={'flex-end'}
 					direction={'row'}
 					spacing={6}>
+					<Link href='/login'>
 					<Button
-						as={'a'}
 						fontSize={'sm'}
 						fontWeight={400}
-						variant={'link'}
-						href={'/login'}>
+						variant={'link'}>
 						Log In
 					</Button>
+					</Link>
+					<Link href={'/register'}>
 					<Button
-						as={"a"}
 						display={{ base: 'none', md: 'inline-flex' }}
 						fontSize={'sm'}
 						fontWeight={600}
+						bgGradient="linear(to-r, red.400,pink.400)"
 						color={'white'}
-						bg={'blue.400'}
-						href={'/register'}
 						_hover={{
-							bg: 'blue.300',
+							bgGradient: "linear(to-r, red.300,pink.300)"
 						}}>
 						Sign Up
 					</Button>
+					</Link>
 				</Stack>
 			</Flex>
 
@@ -112,9 +116,9 @@ const DesktopNav = () => {
 				<Box key={navItem.label}>
 					<Popover trigger={'hover'} placement={'bottom-start'}>
 						<PopoverTrigger>
-							<Link
+							<Link href={navItem.href ?? '#'}>
+							<CLink
 								p={2}
-								href={navItem.href ?? '#'}
 								fontSize={'sm'}
 								fontWeight={500}
 								color={linkColor}
@@ -123,6 +127,7 @@ const DesktopNav = () => {
 									color: linkHoverColor,
 								}}>
 								{navItem.label}
+							</CLink>
 							</Link>
 						</PopoverTrigger>
 
@@ -150,8 +155,8 @@ const DesktopNav = () => {
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
 	return (
-		<Link
-			href={href}
+		<Link href={href}>
+		<CLink
 			role={'group'}
 			display={'block'}
 			p={2}
@@ -178,6 +183,7 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
 					<Icon color={'blue.400'} w={5} h={5} as={ChevronRightIcon} />
 				</Flex>
 			</Stack>
+		</CLink>
 		</Link>
 	);
 };
@@ -200,10 +206,9 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 
 	return (
 		<Stack spacing={4} onClick={children && onToggle}>
+			<Link href={href ?? '#'}>
 			<Flex
 				py={2}
-				as={Link}
-				href={href ?? '#'}
 				justify={'space-between'}
 				align={'center'}
 				_hover={{
@@ -216,14 +221,15 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 				</Text>
 				{children && (
 					<Icon
-						as={ChevronDownIcon}
-						transition={'all .25s ease-in-out'}
-						transform={isOpen ? 'rotate(180deg)' : ''}
-						w={6}
-						h={6}
+					as={ChevronDownIcon}
+					transition={'all .25s ease-in-out'}
+					transform={isOpen ? 'rotate(180deg)' : ''}
+					w={6}
+					h={6}
 					/>
-				)}
+					)}
 			</Flex>
+			</Link>
 
 			<Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
 				<Stack
@@ -235,8 +241,10 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 					align={'start'}>
 					{children &&
 						children.map((child) => (
-							<Link key={child.label} py={2} href={child.href}>
+							<Link href={child.href}>
+							<CLink key={child.label} py={2}>
 								{child.label}
+							</CLink>
 							</Link>
 						))}
 				</Stack>
@@ -249,7 +257,7 @@ interface NavItem {
 	label: string;
 	subLabel?: string;
 	children?: Array<NavItem>;
-	href?: string;
+	href: string;
 }
 
 const NAV_ITEMS: Array<NavItem> = [];
