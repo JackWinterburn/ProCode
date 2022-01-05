@@ -26,11 +26,10 @@ func Register(c *fiber.Ctx) error {
 	passwd, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
 
 	user := models.User{
+		Fullname:    data["fullname"],
 		Username:    data["username"],
 		Email:       data["email"],
 		Password:    passwd,
-		FirstName:   data["fname"],
-		LastName:    data["lname"],
 		IsCreator:   false,
 		IsSuperuser: false,
 		Knowledge:   strings.Split(data["knowledge"], ","),
