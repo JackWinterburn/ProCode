@@ -4,7 +4,6 @@ import (
 	"errors"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/JackWinterburn/procode/db"
@@ -28,11 +27,11 @@ func Register(c *fiber.Ctx) error {
 	user := models.User{
 		Fullname:    data["fullname"],
 		Username:    data["username"],
+		Knowledge:   "",
 		Email:       data["email"],
 		Password:    passwd,
 		IsCreator:   false,
 		IsSuperuser: false,
-		Knowledge:   strings.Split(data["knowledge"], ","),
 	}
 
 	db.PSQL.Create(&user)

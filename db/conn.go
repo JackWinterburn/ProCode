@@ -11,14 +11,14 @@ import (
 var PSQL *gorm.DB
 
 func Connect() {
-	conn, err := gorm.Open(postgres.Open(os.Getenv("postgres_dsn")), &gorm.Config{})
+	connt, err := gorm.Open(postgres.Open(os.Getenv("postgres_dsn")), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 
-	PSQL = conn
+	PSQL = connt
 
-	if err = conn.AutoMigrate(&models.User{}); err != nil {
+	if err = connt.AutoMigrate(&models.User{}); err != nil {
 		panic(err)
 	}
 }

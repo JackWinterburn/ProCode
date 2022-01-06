@@ -22,7 +22,7 @@ import {
     HStack,
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from "@chakra-ui/icons";
-
+import { register } from "./api/register";
 
 const avatars = [
     {
@@ -41,13 +41,12 @@ const avatars = [
         name: 'Prosper Otemuyiwa',
         url: 'https://bit.ly/prosper-baba',
     },
-    {
-        name: 'Christian Nwamba',
-        url: 'https://bit.ly/code-beast',
-    },
 ];
 
+
+
 const Register: NextPage = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState({
         fullname: "",
         username: "",
@@ -62,9 +61,13 @@ const Register: NextPage = () => {
         });
     }
 
-    function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         console.log(userData);
+        setIsLoading(true);
+        let res = await register(userData);
+        console.log(res)
+        setIsLoading(false);
     }
 
 
@@ -219,9 +222,9 @@ const Register: NextPage = () => {
                             />
 
                         </Stack>
-                        <Checkbox mt={5}>Remember me</Checkbox>
                         <Button
                             type="submit"
+                            isLoading={isLoading}
                             fontFamily={'heading'}
                             mt={8}
                             w={'full'}
