@@ -34,8 +34,9 @@ func Register(c *fiber.Ctx) error {
 		IsSuperuser: false,
 	}
 
-	db.PSQL.Create(&user)
-
+	if result := db.PSQL.Create(&user); result.Error != nil {
+		return c.JSON(result.Error)
+	}
 	return c.JSON(user)
 }
 

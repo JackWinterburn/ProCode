@@ -23,6 +23,8 @@ import {
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { register } from "./api/register";
+import { registrationerrcheck } from "./utils/registrationerrcheck";
+import { Toastmessage } from "./components/Toastmessage";
 
 const avatars = [
     {
@@ -63,11 +65,19 @@ const Register: NextPage = () => {
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        console.log(userData);
         setIsLoading(true);
-        let res = await register(userData);
-        console.log(res)
-        setIsLoading(false);
+        try {
+            let res = await register(userData);
+            setIsLoading(false);
+            return res.Severity === undefined ? Toastmessage({
+                title: "Success!",
+                description: "Your account has been successfully created.",
+                status: "success",
+            }) : registrationerrcheck(res);
+        } catch(e) {
+            setIsLoading(false);
+            return registrationerrcheck({Severity: "NO_RES", ConstraintName: "none"});
+        }
     }
 
 
