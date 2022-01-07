@@ -7,7 +7,7 @@ import (
 
 func SetAuthRoutes(app *fiber.App) {
 	app.Post("/api/register", c.Register)
-	app.Post("/api/login", nil)
+	app.Post("/api/login", c.Login)
 	app.Post("/api/logout", nil)
 	app.Get("/api/user", nil)
 }

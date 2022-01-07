@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import {
     Box,
@@ -18,8 +19,6 @@ import {
     useBreakpointValue,
     IconProps,
     Icon,
-    Checkbox,
-    HStack,
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { register } from "./api/register";
@@ -48,6 +47,7 @@ const avatars = [
 
 
 const Register: NextPage = () => {
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState({
         fullname: "",
@@ -69,15 +69,20 @@ const Register: NextPage = () => {
         try {
             let res = await register(userData);
             setIsLoading(false);
-            return res.Severity === undefined ? Toastmessage({
-                title: "Success!",
-                description: "Your account has been successfully created.",
-                status: "success",
-            }) : registrationerrcheck(res);
+            return res.Severity === undefined ? sendToLoginPage() : registrationerrcheck(res);
         } catch(e) {
             setIsLoading(false);
             return registrationerrcheck({Severity: "NO_RES", ConstraintName: "none"});
         }
+    }
+
+    function sendToLoginPage() {
+        router.push("/login");
+        return Toastmessage({
+            title: "Success!",
+            description: "You have been successfully logged in.",
+            status: "success",
+        });
     }
 
 
