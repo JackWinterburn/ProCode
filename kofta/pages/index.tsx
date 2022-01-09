@@ -1,13 +1,23 @@
 import type { NextPage } from 'next';
-import { Heading, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { Heading, Text, Box } from "@chakra-ui/react";
+import { getCookie } from "cookies-next";
 
 const Home: NextPage = () => {
-  return (
-    <div>
-      <Heading>Hello, Ben</Heading>
-      <Text>And, Mr. Yannis Kontos</Text>
-    </div>
-  );
+	const [isLoggedIn, _] = useState(getCookie("isLoggedIn") ?? false);
+	const router = useRouter();
+
+	if(isLoggedIn) {
+		router.push("/profile")
+	}
+
+	return (
+		<Box textAlign={"center"} pt={10}>
+			<Heading>Hello, You</Heading>
+			<Text>Welcome to the home page.</Text>
+		</Box>
+	);
 }
 
 export default Home

@@ -41,7 +41,6 @@ const Login: NextPage = () => {
         }
     }
     function completeLogin() {
-        // TODO FIX THIS PLS
         setCookies("isLoggedIn", "true", {maxAge: 60*60*24});
         router.push("/");
         return Toastmessage({
@@ -54,7 +53,7 @@ const Login: NextPage = () => {
     return (
         <Box display={"flex"} justifyContent={"center"} alignItems={"center"} h={"70vh"}>
             <form onSubmit={onSubmit}>
-                <Box mt={10} bg={"gray.50"} p={10}>
+                <Box mt={10} bg={"gray.50"} p={10} borderRadius={7}>
                     <Stack spacing={4}>
                         <Input
                             placeholder="johndoe@email.com"

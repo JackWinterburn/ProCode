@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { Navbar } from "./components/Navbar";
+import "../styles/globals.css"
 import "@fontsource/ubuntu";
 
 export const theme = extendTheme({})// To be filled in

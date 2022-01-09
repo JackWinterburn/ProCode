@@ -74,17 +74,9 @@ export function Navbar() {
 					justify={'flex-end'}
 					direction={'row'}
 					spacing={6}>
-					<Link href='/login'>
-					<Button
-						fontSize={'sm'}
-						fontWeight={400}
-						variant={'link'}>
-						Log In
-					</Button>
-					</Link>
 					<Link href={'/register'}>
 					<Button
-						display={{ base: 'none', md: 'inline-flex' }}
+						// display={{ base: 'none', md: 'inline-flex' }}
 						fontSize={'sm'}
 						fontWeight={600}
 						bgGradient="linear(to-r, red.400,pink.400)"
@@ -112,80 +104,80 @@ const DesktopNav = () => {
 
 	return (
 		<Stack direction={'row'} spacing={4}>
-			{NAV_ITEMS.map((navItem) => (
-				<Box key={navItem.label}>
-					<Popover trigger={'hover'} placement={'bottom-start'}>
-						<PopoverTrigger>
-							<Link href={navItem.href ?? '#'}>
-							<CLink
-								p={2}
-								fontSize={'sm'}
-								fontWeight={500}
-								color={linkColor}
-								_hover={{
-									textDecoration: 'none',
-									color: linkHoverColor,
-								}}>
-								{navItem.label}
-							</CLink>
-							</Link>
-						</PopoverTrigger>
+      {NAV_ITEMS.map((navItem) => (
+        <Box key={navItem.label}>
+          <Popover trigger={'hover'} placement={'bottom-start'}>
+            <PopoverTrigger>
+              <CLink
+                p={2}
+                fontSize={'sm'}
+                fontWeight={500}
+                color={linkColor}
+                _hover={{
+					textDecoration: 'none',
+					color: linkHoverColor,
+                }}>
+				<Link href={navItem.href ?? '#'}>
+                {navItem.label}
+				</Link>
+              </CLink>
+            </PopoverTrigger>
 
-						{navItem.children && (
-							<PopoverContent
-								border={0}
-								boxShadow={'xl'}
-								bg={popoverContentBgColor}
-								p={4}
-								rounded={'xl'}
-								minW={'sm'}>
-								<Stack>
-									{navItem.children.map((child) => (
-										<DesktopSubNav key={child.label} {...child} />
-									))}
-								</Stack>
-							</PopoverContent>
-						)}
-					</Popover>
-				</Box>
-			))}
-		</Stack>
+            {navItem.children && (
+              <PopoverContent
+                border={0}
+                boxShadow={'xl'}
+                bg={popoverContentBgColor}
+                p={4}
+                rounded={'xl'}
+                minW={'sm'}>
+                <Stack>
+                  {navItem.children.map((child) => (
+                    <DesktopSubNav key={child.label} {...child} />
+                  ))}
+                </Stack>
+              </PopoverContent>
+            )}
+          </Popover>
+        </Box>
+      ))}
+    </Stack>
 	);
 };
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
 	return (
-		<Link href={href}>
+		<Link href={href ?? "#"}>
 		<CLink
-			role={'group'}
-			display={'block'}
-			p={2}
-			rounded={'md'}
-			_hover={{ bg: useColorModeValue('blue.50', 'gray.900') }}>
-			<Stack direction={'row'} align={'center'}>
-				<Box>
-					<Text
-						transition={'all .3s ease'}
-						_groupHover={{ color: 'blue.400' }}
-						fontWeight={500}>
-						{label}
-					</Text>
-					<Text fontSize={'sm'}>{subLabel}</Text>
-				</Box>
-				<Flex
-					transition={'all .3s ease'}
-					transform={'translateX(-10px)'}
-					opacity={0}
-					_groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-					justify={'flex-end'}
-					align={'center'}
-					flex={1}>
-					<Icon color={'blue.400'} w={5} h={5} as={ChevronRightIcon} />
-				</Flex>
-			</Stack>
+		  role={'group'}
+		  display={'block'}
+		  p={2}
+		  rounded={'md'}
+		  _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
+		  <Stack direction={'row'} align={'center'}>
+			<Box>
+			  <Text
+				transition={'all .3s ease'}
+				_groupHover={{ color: 'pink.400' }}
+				fontWeight={500}>
+				{label}
+			  </Text>
+			  <Text fontSize={'sm'}>{subLabel}</Text>
+			</Box>
+			<Flex
+			  transition={'all .3s ease'}
+			  transform={'translateX(-10px)'}
+			  opacity={0}
+			  _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
+			  justify={'flex-end'}
+			  align={'center'}
+			  flex={1}>
+			  <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
+			</Flex>
+		  </Stack>
 		</CLink>
 		</Link>
-	);
+	  );
 };
 
 const MobileNav = () => {
@@ -207,12 +199,14 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 	return (
 		<Stack spacing={4} onClick={children && onToggle}>
 			<Link href={href ?? '#'}>
+			<CLink >
 			<Flex
 				py={2}
 				justify={'space-between'}
 				align={'center'}
 				_hover={{
 					textDecoration: 'none',
+					cursor: "pointer",
 				}}>
 				<Text
 					fontWeight={600}
@@ -229,6 +223,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 					/>
 					)}
 			</Flex>
+			</CLink>
 			</Link>
 
 			<Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
@@ -241,7 +236,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 					align={'start'}>
 					{children &&
 						children.map((child) => (
-							<Link href={child.href}>
+							<Link href={child.href ?? "#"}>
 							<CLink key={child.label} py={2}>
 								{child.label}
 							</CLink>
@@ -257,7 +252,27 @@ interface NavItem {
 	label: string;
 	subLabel?: string;
 	children?: Array<NavItem>;
-	href: string;
+	href?: string;
 }
 
-const NAV_ITEMS: Array<NavItem> = [];
+const NAV_ITEMS: Array<NavItem> = [
+	{
+		label: "Profile",
+		href: "/profile",
+	},
+	{
+		label: "Authentication",
+		children: [
+			{
+				label: "Login",
+				subLabel: "Get started now",
+				href: "/login",
+			},
+			{
+				label: "Logout",
+				subLabel: "Finish your session",
+				href: "/logout",
+			}
+		],
+	}
+];

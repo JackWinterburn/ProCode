@@ -1,7 +1,6 @@
 package c
 
 import (
-	"errors"
 	"os"
 	"strconv"
 	"time"
@@ -96,9 +95,35 @@ func Login(c *fiber.Ctx) error {
 }
 
 func User(c *fiber.Ctx) error {
-	return errors.New("to be developed")
+	cookie := c.Cookies("jwt")
+	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(t *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
+	})
+
+	if err != nil {
+		c.Status(fiber.StatusUnauthorized)
+		return c.JSON(fiber.Map{
+			"message": "unauthorised",
+		})
+	}
+	claims := token.Claims.(*jwt.StandardClaims)
+
+	var user models.User
+	db.PSQL.Where("id = ?", claims.Issuer).First(&user)
+
+	return c.JSON(user)
 }
 
 func Logout(c *fiber.Ctx) error {
-	return errors.New("to be developed")
+	cookie := fiber.Cookie{
+		Name:     "jwt",
+		Value:    "",
+		Expires:  time.Now().Add(-time.Hour),
+		HTTPOnly: true,
+	}
+	c.Cookie(&cookie)
+
+	return c.JSON(fiber.Map{
+		"message": "successfully logged out",
+	})
 }
